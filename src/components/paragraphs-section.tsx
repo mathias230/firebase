@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea'; // Import Textarea
 // Sample paragraphs - replace with actual content
 const paragraphs = [
   "Eres la mejor persona que he conocido en mi vida, siempre quise a alguien como tu y soy muy afortunado de tenerte a mi lado",
-  "Desde que llegaste, mi mundo se llenó de colores que no sabía que existían. Tu sonrisa es mi sol, tus abrazos mi refugio. Te amo más de lo que las palabras pueden expresar.",
+  "Desde que llegaste, mi vida se lleno de colores que no sabia que existian, tu sonrisa ilumina mis dias, tus palabras son un refugio",
   "Contigo he aprendido lo que significa amar de verdad, entregar el corazón sin reservas y encontrar la felicidad en las cosas más simples. Eres mi todo.",
   "No hay distancia que pueda apagar este amor, ni tiempo que pueda disminuirlo. Eres mi principio y mi fin, mi amor eterno.",
 ];
