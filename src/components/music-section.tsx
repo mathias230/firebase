@@ -6,8 +6,8 @@ export function MusicSection() {
   // Placeholder for an embedded music player (e.g., Spotify, SoundCloud, YouTube Music)
   // Replace the div below with the actual embed code from the music service.
   const embedCode = `
-    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-  `; // Example Spotify Playlist
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/647x1NQZFuGixnJqUFMnGS?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  `; // Updated Spotify Playlist
 
   return (
     <section id="music" className="py-12 md:py-16 bg-secondary">
