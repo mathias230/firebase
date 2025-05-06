@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea'; // Import Textarea
 
 // Sample paragraphs - replace with actual content
 const paragraphs = [
@@ -30,6 +31,17 @@ export function ParagraphsSection() {
             </Card>
           ))}
         </div>
+
+        {/* Large Textarea */}
+        <Card className="bg-card shadow-lg border-accent/30 mt-6">
+          <CardContent>
+            <Textarea
+              placeholder="Escribe aquí tus pensamientos..."
+              rows={40} // Adjust rows for desired height
+              className="text-lg text-card-foreground leading-relaxed"
+            />
+          </CardContent>
+        </Card>
       </div>
     </section>
   );
