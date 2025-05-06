@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -9,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useToast } from "@/hooks/use-toast"; // Assuming useToast hook exists
+import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
 
 // Simple SVG Icons for social media (replace with lucide-react if available and suitable)
@@ -17,75 +18,91 @@ const TwitterIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" hei
 const FacebookIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>;
 const WhatsAppIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>;
 
-const targetDate = new Date('2025-06-19T07:00:00'); // June 19, 2025 7:00 AM
+interface CountdownState {
+    total: number;
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+}
 
+const targetDate = new Date('2025-06-19T07:00:00'); // June 19, 2025 7:00 AM
 
 export function ShareSection() {
   const { toast } = useToast();
   const [pageUrl, setPageUrl] = useState('');
   const [pageTitle] = useState('Amor Eterno - Una página especial'); // Or fetch dynamically if needed
-  const [countdown, setCountdown] = useState(calculateTimeRemaining());
-  const [isUnlocked, setIsUnlocked] = useState(countdown.total <= 0);
+  const [countdown, setCountdown] = useState<CountdownState | null>(null); // Initialize countdown state as null
+  const [isUnlocked, setIsUnlocked] = useState(false); // Initial state based on server time is unreliable, set based on client time
+  const [hasMounted, setHasMounted] = useState(false); // Track if component has mounted
   const router = useRouter();
 
+  // Function to calculate time remaining
+  const calculateTimeRemaining = (): CountdownState => {
+      const now = new Date();
+      let difference = targetDate.getTime() - now.getTime();
 
+      if (difference <= 0) {
+          return {
+              total: 0,
+              days: 0,
+              hours: 0,
+              minutes: 0,
+              seconds: 0,
+          };
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      difference -= days * (1000 * 60 * 60 * 24);
+
+      const hours = Math.floor(difference / (1000 * 60 * 60));
+      difference -= hours * (1000 * 60 * 60);
+
+      const minutes = Math.floor(difference / (1000 * 60));
+      difference -= minutes * (1000 * 60);
+
+      const seconds = Math.floor(difference / 1000);
+
+      return {
+          total: difference,
+          days,
+          hours,
+          minutes,
+          seconds,
+      };
+  }
 
   useEffect(() => {
-    // Ensure this runs only on the client
+    // Ensure this runs only on the client after initial render
+    setHasMounted(true);
     setPageUrl(window.location.href);
-  }, []);
 
-  useEffect(() => {
+    // Calculate initial countdown state on the client
+    const initialCountdown = calculateTimeRemaining();
+    setCountdown(initialCountdown);
+    setIsUnlocked(initialCountdown.total <= 0);
+
     let interval: NodeJS.Timeout;
 
-    if (!isUnlocked) {
+    // Only set the interval if the countdown hasn't finished yet
+    if (initialCountdown.total > 0) {
       interval = setInterval(() => {
         const newCountdown = calculateTimeRemaining();
         setCountdown(newCountdown);
         if (newCountdown.total <= 0) {
           setIsUnlocked(true);
-          clearInterval(interval);
+          clearInterval(interval); // Clear interval when countdown reaches zero
         }
       }, 1000);
     }
 
-    return () => clearInterval(interval);
-  }, [isUnlocked]);
-
-  function calculateTimeRemaining() {
-    const now = new Date();
-    let difference = targetDate.getTime() - now.getTime();
-
-    if (difference <= 0) {
-      return {
-        total: 0,
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-      };
-    }
-
-    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-    difference -= days * (1000 * 60 * 60 * 24);
-
-    const hours = Math.floor(difference / (1000 * 60 * 60));
-    difference -= hours * (1000 * 60 * 60);
-
-    const minutes = Math.floor(difference / (1000 * 60));
-    difference -= minutes * (1000 * 60);
-
-    const seconds = Math.floor(difference / 1000);
-
-    return {
-      total: difference,
-      days,
-      hours,
-      minutes,
-      seconds,
+    // Cleanup function to clear interval when component unmounts
+    return () => {
+        if (interval) {
+            clearInterval(interval);
+        }
     };
-  }
-
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   const copyToClipboard = () => {
     if (!pageUrl) return;
@@ -115,6 +132,19 @@ export function ShareSection() {
         router.push('/otra-pagina'); // Replace '/otra-pagina' with the actual path
     };
 
+   // Render placeholder or nothing until mounted and countdown is calculated
+   if (!hasMounted || countdown === null) {
+    return (
+        <section id="share" className="py-8 bg-background">
+            <div className="container mx-auto px-4 text-center">
+                {/* Placeholder while loading */}
+                <div className="h-10 w-48 bg-muted rounded-md mx-auto animate-pulse"></div>
+                <div className="h-11 w-24 bg-muted rounded-md mx-auto mt-4 animate-pulse"></div>
+            </div>
+        </section>
+    );
+}
+
   return (
     <section id="share" className="py-8 bg-background">
       <div className="container mx-auto px-4 text-center">
@@ -123,9 +153,9 @@ export function ShareSection() {
                 Ir a la página especial
             </Button>
         ) : (
-            <div>
-                <p>Disponible en:</p>
-                <p>
+            <div className="mb-4">
+                <p className="text-muted-foreground">Disponible en:</p>
+                <p className="text-lg font-semibold text-primary-foreground">
                     {countdown.days} días, {countdown.hours} horas, {countdown.minutes} minutos, {countdown.seconds} segundos
                 </p>
             </div>
@@ -133,9 +163,11 @@ export function ShareSection() {
         <Button variant="outline" size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 border-none shadow-md" onClick={navigateToPage} disabled={!isUnlocked}>
               0.12
         </Button>
-         {/*<DropdownMenu>
+         {/* Dropdown for sharing - can be re-enabled if needed */}
+         {/*
+         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-             <Button variant="outline" size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 border-none shadow-md" disabled={!isUnlocked}>
+             <Button variant="outline" size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 border-none shadow-md ml-4">
               <Share2 className="mr-2" />
               Compartir Amor
             </Button>
@@ -154,10 +186,9 @@ export function ShareSection() {
                 <span>Copiar Enlace</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>*/}
+        </DropdownMenu>
+        */}
       </div>
     </section>
   );
 }
-
-
