@@ -8,7 +8,7 @@ const paragraphs = [
   "Eres la mejor persona que he conocido en mi vida, siempre quise a alguien como tu y soy muy afortunado de tenerte a mi lado",
   "Desde que llegaste, mi vida se lleno de colores que no sabia que existian, tu sonrisa ilumina mis dias, tus palabras son un refugio",
   "Contigo he aprendido el verdadero significado de amar, entregar el corazon sin esperar nada a cambio, encontre la felicidad en ti y soy muy agradecido",
-  "No hay distancia que pueda apagar este amor, ni tiempo que pueda disminuirlo. Eres mi principio y mi fin, mi amor eterno.",
+  "No hay distancia que pueda acabar con este amor, mi amor por ti tuvo un inicio pero espero nunca ver el final", // Updated text
 ];
 
 export function ParagraphsSection() {
