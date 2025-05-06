@@ -130,7 +130,10 @@ export function ShareSection() {
                 </p>
             </div>
         )}
-         <DropdownMenu>
+        <Button variant="outline" size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 border-none shadow-md" onClick={navigateToPage} disabled={!isUnlocked}>
+              0.12
+        </Button>
+         {/*<DropdownMenu>
           <DropdownMenuTrigger asChild>
              <Button variant="outline" size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 border-none shadow-md" disabled={!isUnlocked}>
               <Share2 className="mr-2" />
@@ -151,9 +154,10 @@ export function ShareSection() {
                 <span>Copiar Enlace</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu>*/}
       </div>
     </section>
   );
 }
+
 
