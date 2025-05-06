@@ -39,6 +39,7 @@ export function ParagraphsSection() {
               placeholder="Escribe aquí tus pensamientos..."
               rows={40} // Adjust rows for desired height
               className="text-lg text-card-foreground leading-relaxed"
+              defaultValue="Hola mi amor, mi niña bonita, hoy no es cualquier dia, hoy cumplimos 11 meses juntitos, y de verdad no tengo palabras para explicar lo muy afortunado que soy por tenerte en mi vida, quiero que sepas que eres lo mejor que me ha pasado en la vida, que eres una persona increible, estoy muy muy pero muy orgulloso de ti, de todo lo que haz logrado, creeme que pase lo que pase yo siempre siempre te apoyare en todos y cada uno de tus metas y sueños, aunque tus sueños me quiten prioridad y nos aleje aun mas, yo siempre siempre estare ahi para apoyarte pase lo que pase, estuve ahi en las buenas y en las malas cintigo, lo seguire haciendo hasta el final de los tiempos, creeme cuando te digo que nunca nunca habia amado tanto a alguien como lo hago contigo, nunca nunca crei que podia amar tanto a alguien hasta que te conoci, nunca pense que me podia enamorar tan perdidamente de alguien y con tantas ganas y emocion, hasta que te conoci, eres lo mejor mejor que me ha pasado en la vida y lo mejor que me habra pasado, te amo y te adoro demasiado mi princesita hermosa"
             />
           </CardContent>
         </Card>
