@@ -14,7 +14,7 @@ export function MusicSection() {
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-semibold text-center text-secondary-foreground mb-8 flex items-center justify-center gap-3">
           <Music className="text-accent" size={32} />
-          Nuestra Canción
+          MUSICA
           <Music className="text-accent" size={32} />
         </h2>
         <Card className="bg-card shadow-lg overflow-hidden border-primary/30">
