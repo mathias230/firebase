@@ -36,7 +36,7 @@ export function ParagraphsSection() {
         <Card className="bg-card shadow-lg border-accent/30 mt-6">
            <CardHeader>
              <CardTitle className="text-xl text-primary-foreground flex items-center gap-2">
-                Un Mensaje Especial Para Ti
+                Algo mas que palabras
              </CardTitle>
            </CardHeader>
           <CardContent>
