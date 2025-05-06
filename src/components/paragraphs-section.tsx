@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea'; // Import Textarea
 const paragraphs = [
   "Eres la mejor persona que he conocido en mi vida, siempre quise a alguien como tu y soy muy afortunado de tenerte a mi lado",
   "Desde que llegaste, mi vida se lleno de colores que no sabia que existian, tu sonrisa ilumina mis dias, tus palabras son un refugio",
-  "Contigo he aprendido lo que significa amar de verdad, entregar el corazón sin reservas y encontrar la felicidad en las cosas más simples. Eres mi todo.",
+  "Contigo he aprendido el verdadero significado de amar, entregar el corazon sin esperar nada a cambio, encontre la felicidad en ti y soy muy agradecido",
   "No hay distancia que pueda apagar este amor, ni tiempo que pueda disminuirlo. Eres mi principio y mi fin, mi amor eterno.",
 ];
 
@@ -25,7 +25,7 @@ export function ParagraphsSection() {
             <Card key={index} className="bg-card shadow-lg border-accent/30 transform transition duration-300 hover:scale-105 hover:shadow-xl">
               <CardContent className="pt-6">
                 <p className="text-lg text-card-foreground leading-relaxed italic">
-                  "{text}"
+                  {text} {/* Removed quotes as per previous edits, just displaying text directly */}
                 </p>
               </CardContent>
             </Card>
