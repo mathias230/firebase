@@ -3,78 +3,85 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Slightly softer font */
 }
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    /* Light Theme - Romantic Palette */
+    --background: 240 67% 97%; /* Light Lavender */
+    --foreground: 349 29% 20%; /* Dark Rose Gold derived */
+    --card: 351 100% 98%; /* Very light pink */
+    --card-foreground: 349 29% 20%;
+    --popover: 351 100% 98%;
+    --popover-foreground: 349 29% 20%;
+    --primary: 351 100% 86%; /* Soft Pastel Pink */
+    --primary-foreground: 349 29% 20%; /* Dark Rose Gold derived for contrast */
+    --secondary: 240 60% 99%; /* Lighter Lavender */
+    --secondary-foreground: 349 29% 30%;
+    --muted: 240 60% 95%; /* Muted Lavender */
+    --muted-foreground: 349 29% 40%;
+    --accent: 349 29% 60%; /* Rose Gold */
+    --accent-foreground: 0 0% 100%; /* White for contrast */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 351 50% 90%; /* Pinkish border */
+    --input: 240 30% 95%; /* Light Lavenderish Input */
+    --ring: 349 29% 60%; /* Rose Gold */
+    --chart-1: 351 100% 86%; /* Primary */
+    --chart-2: 349 29% 60%; /* Accent */
+    --chart-3: 240 67% 85%; /* Lighter Lavender */
+    --chart-4: 351 80% 75%; /* Lighter Pink */
+    --chart-5: 349 40% 70%; /* Lighter Rose Gold */
+    --radius: 0.75rem; /* Slightly more rounded */
+
+    /* Sidebar specific (can keep default or adjust slightly) */
+    --sidebar-background: 240 67% 97%; /* Match background */
+    --sidebar-foreground: 349 29% 20%;
+    --sidebar-primary: 351 100% 86%;
+    --sidebar-primary-foreground: 349 29% 20%;
+    --sidebar-accent: 351 100% 92%; /* Lighter Pink Accent */
+    --sidebar-accent-foreground: 349 29% 20%;
+    --sidebar-border: 351 50% 90%;
+    --sidebar-ring: 349 29% 60%;
   }
+
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    /* Dark Theme - Romantic Palette (Inverted/Darker Tones) */
+    --background: 240 10% 10%; /* Dark Lavender/Purple */
+    --foreground: 240 67% 97%; /* Light Lavender */
+    --card: 349 15% 15%; /* Dark Rose Gold/Pink tint */
+    --card-foreground: 240 67% 97%;
+    --popover: 240 10% 10%;
+    --popover-foreground: 240 67% 97%;
+    --primary: 349 29% 60%; /* Rose Gold */
+    --primary-foreground: 0 0% 100%; /* White */
+    --secondary: 351 30% 30%; /* Dark Pink */
+    --secondary-foreground: 240 67% 97%;
+    --muted: 240 10% 20%; /* Darker Muted Lavender */
+    --muted-foreground: 240 20% 70%;
+    --accent: 351 100% 86%; /* Soft Pastel Pink */
+    --accent-foreground: 349 29% 20%; /* Dark for contrast */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 349 15% 25%; /* Dark Rose/Pink border */
+    --input: 240 10% 20%;
+    --ring: 351 100% 86%; /* Soft Pastel Pink */
+    --chart-1: 349 29% 60%; /* Primary Dark */
+    --chart-2: 351 100% 86%; /* Accent Dark */
+    --chart-3: 240 40% 70%; /* Lighter Lavender Dark */
+    --chart-4: 349 40% 50%; /* Darker Rose Gold */
+    --chart-5: 351 60% 75%; /* Lighter Pink Dark */
+
+    /* Sidebar specific dark */
+    --sidebar-background: 240 10% 10%;
+    --sidebar-foreground: 240 67% 97%;
+    --sidebar-primary: 349 29% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 349 15% 20%; /* Dark Rose Accent */
+    --sidebar-accent-foreground: 240 67% 97%;
+    --sidebar-border: 349 15% 25%;
+    --sidebar-ring: 351 100% 86%;
   }
 }
 
@@ -84,5 +91,65 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden; /* Prevent horizontal scroll from animations */
   }
+}
+
+/* Floating Hearts Animation */
+@keyframes float {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+}
+
+.heart {
+  position: fixed;
+  bottom: -50px; /* Start below screen */
+  width: 20px;
+  height: 20px;
+  background-color: hsl(var(--primary) / 0.8); /* Use primary color with some transparency */
+  opacity: 0;
+  animation: float 10s linear infinite;
+  pointer-events: none;
+  z-index: 0; /* Behind content */
+}
+
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: inherit;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -10px;
+  left: 0;
+}
+
+.heart::after {
+  top: 0;
+  left: 10px;
+}
+
+/* Flower-like simple shapes */
+@keyframes bloom {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { opacity: 0.7; }
+  100% { transform: scale(1.2); opacity: 0; }
+}
+
+.petal {
+  position: fixed;
+  bottom: -30px;
+  width: 15px;
+  height: 25px;
+  background-color: hsl(var(--secondary) / 0.7); /* Use secondary color */
+  border-radius: 50% 50% 0 0;
+  opacity: 0;
+  animation: float 12s linear infinite, bloom 12s ease-out infinite;
+  animation-delay: var(--delay);
+  pointer-events: none;
+  z-index: 0;
 }
