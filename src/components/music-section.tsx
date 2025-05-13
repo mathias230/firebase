@@ -6,7 +6,7 @@ export function MusicSection() {
   // Placeholder for an embedded music player (e.g., Spotify, SoundCloud, YouTube Music)
   // Replace the div below with the actual embed code from the music service.
   const embedCode = `
-    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/647x1NQZFuGixnJqUFMnGS?si=65ad40aae1934cc5&pt=021694f57eb53e7dc7cf5e94f477d325" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/647x1NQZFuGixnJqUFMnGS?si=2e3f1b0dc4134b47&pt=5ee0f86dee9b3243fadc38ebff17542a" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
   `; // Updated Spotify Playlist with new parameters
 
   return (
@@ -32,4 +32,3 @@ export function MusicSection() {
     </section>
   );
 }
-
