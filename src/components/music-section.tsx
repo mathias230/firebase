@@ -3,10 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Music } from 'lucide-react';
 
-const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/embed/playlist/647x1NQZFuGixnJqUFMnGS?utm_source=generator&theme=0"; // Using a theme a
-// The specific pt parameter seems to be session/user specific for Spotify and might not be needed for general embedding.
-// If a specific variant like si=0222716f1fac4735&pt=586934f1300914a36bf9be43130c0fba is strictly needed and works universally, it can be used.
-// For simplicity and general use, the base embed URL is often sufficient.
+const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/embed/playlist/647x1NQZFuGixnJqUFMnGS?si=b8f63dcbaafa4379&pt=f2be798659dd30b1fa6f6eafc5101a31";
 
 export function MusicSection() {
   const embedHtml = `
@@ -33,3 +30,4 @@ export function MusicSection() {
     </section>
   );
 }
+
