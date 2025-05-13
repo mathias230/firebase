@@ -3,11 +3,11 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Music } from 'lucide-react';
 
-const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/embed/playlist/37i9dQZF1DWXNFSTtym834?utm_source=generator";
+// const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/embed/playlist/37i9dQZF1DWXNFSTtym834?utm_source=generator";
 
 export function MusicSection() {
   const embedHtml = `
-    <iframe style="border-radius:12px" src="${SPOTIFY_PLAYLIST_URL}" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2MZgRLYxxS71IEZelflSxH?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
   `;
 
   return (
@@ -30,4 +30,3 @@ export function MusicSection() {
     </section>
   );
 }
-
