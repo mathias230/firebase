@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Music } from 'lucide-react';
 
-const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/embed/playlist/647x1NQZFuGixnJqUFMnGS?si=b8f63dcbaafa4379&pt=f2be798659dd30b1fa6f6eafc5101a31";
+const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/embed/playlist/37i9dQZF1DWXNFSTtym834?utm_source=generator";
 
 export function MusicSection() {
   const embedHtml = `
