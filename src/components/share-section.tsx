@@ -3,16 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-// Removed useToast and other share-related imports as they are not currently used.
-// If sharing functionality is re-enabled, these might be needed:
-// import { useToast } from "@/hooks/use-toast";
-// import { Share2, Copy } from 'lucide-react';
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
 
 interface CountdownState {
     total: number; // Remaining milliseconds
@@ -32,8 +22,6 @@ export function ShareSection() {
 
   useEffect(() => {
     setHasMounted(true);
-    // All date calculations are now strictly within useEffect
-
     const targetDateInstance = new Date(TARGET_DATE_STRING);
 
     const calculateAndUpdateCountdown = (): boolean => {
@@ -62,36 +50,36 @@ export function ShareSection() {
       return false; // Countdown ongoing
     };
     
-    // Perform initial calculation and update state
     if (calculateAndUpdateCountdown()) {
-      // Already unlocked, no interval needed
       return;
     }
 
-    // If not unlocked, set up the interval to update the countdown
     const intervalId = setInterval(() => {
       if (calculateAndUpdateCountdown()) {
-        clearInterval(intervalId); // Stop interval once unlocked
+        clearInterval(intervalId);
       }
     }, 1000);
 
-    // Cleanup function to clear interval when component unmounts
     return () => {
       clearInterval(intervalId);
     };
-  }, []); // Empty dependency array ensures this runs once on mount (client-side)
+  }, []);
 
   const navigateToPage = () => {
     router.push('/otra-pagina');
   };
 
-  // Render placeholder or nothing until mounted and countdown is calculated client-side
   if (!hasMounted || countdown === null) {
     return (
       <section id="share" className="py-8 bg-background">
         <div className="container mx-auto px-4 text-center">
-          {/* Placeholder for the button that will show countdown or "0.12" */}
-          <div className="h-11 w-48 bg-muted rounded-md mx-auto animate-pulse"></div>
+          {/* Placeholder for Countdown Text Area */}
+          <div className="mb-4">
+            <div className="h-4 w-24 bg-muted rounded-md mx-auto mb-1 animate-pulse"></div> {/* For "Disponible en:" */}
+            <div className="h-6 w-64 bg-muted rounded-md mx-auto animate-pulse"></div>   {/* For the countdown string itself */}
+          </div>
+          {/* Placeholder for Button */}
+          <div className="h-10 w-20 bg-muted rounded-md mx-auto animate-pulse"></div> {/* For "0.12" button */}
         </div>
       </section>
     );
@@ -100,44 +88,26 @@ export function ShareSection() {
   return (
     <section id="share" className="py-8 bg-background">
       <div className="container mx-auto px-4 text-center">
-        <Button 
-            variant="outline" 
-            size="lg" 
-            className="bg-accent text-accent-foreground hover:bg-accent/90 border-none shadow-md min-w-[200px] px-4" // Added min-width and padding for better text fit
-            onClick={navigateToPage} 
+        {/* Countdown Text Area */}
+        {!isUnlocked && countdown && countdown.total > 0 && (
+          <div className="mb-4">
+            <p className="text-sm text-muted-foreground">Disponible en:</p>
+            <p className="text-lg text-foreground">
+              {countdown.days} día{countdown.days !== 1 ? 's' : ''}, {countdown.hours} hora{countdown.hours !== 1 ? 's' : ''}, {countdown.minutes} minuto{countdown.minutes !== 1 ? 's' : ''}, {countdown.seconds} segundo{countdown.seconds !== 1 ? 's' : ''}
+            </p>
+          </div>
+        )}
+
+        {/* Button */}
+        <Button
+            variant="default" // Use default and customize background
+            size="default"
+            className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-md"
+            onClick={navigateToPage}
             disabled={!isUnlocked}
         >
-          {isUnlocked 
-            ? "0.12" 
-            : `Disponible en: ${countdown.days}d ${countdown.hours}h ${countdown.minutes}m ${countdown.seconds}s`
-          }
+          0.12
         </Button>
-        
-        {/* Social sharing dropdown is currently commented out as per implied focus change */}
-        {/*
-         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-             <Button variant="outline" size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 border-none shadow-md ml-4">
-              <Share2 className="mr-2" />
-              Compartir Amor
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center" className="bg-popover border-accent/50">
-             {shareOptions.map(option => ( // shareOptions would need to be defined
-              <DropdownMenuItem key={option.name} asChild>
-                <a href={option.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 cursor-pointer">
-                  {option.icon} // SVG icons would need to be defined
-                  <span>{option.name}</span>
-                </a>
-              </DropdownMenuItem>
-            ))}
-             <DropdownMenuItem onSelect={copyToClipboard} className="flex items-center gap-2 cursor-pointer"> // copyToClipboard would need to be defined
-                <Copy />
-                <span>Copiar Enlace</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        */}
       </div>
     </section>
   );
