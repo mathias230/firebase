@@ -1,6 +1,6 @@
 import { Header } from '@/components/header';
 import { ParagraphsSection } from '@/components/paragraphs-section';
-import { MusicSection } from '@/components/music-section';
+// import { MusicSection } from '@/components/music-section'; // Removed import
 import { AnimationsSection } from '@/components/animations-section';
 import { ShareSection } from '@/components/share-section';
 import { Footer } from '@/components/footer';
@@ -27,7 +27,7 @@ export default function Home() {
         </section>
 
         <ParagraphsSection />
-        <MusicSection />
+        {/* <MusicSection /> // Removed usage */}
         <ShareSection />
       </main>
       <Footer />
