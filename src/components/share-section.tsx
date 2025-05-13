@@ -1,170 +1,120 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Share2, Copy } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
-
-// Simple SVG Icons for social media (replace with lucide-react if available and suitable)
-const TwitterIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>;
-const FacebookIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>;
-const WhatsAppIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>;
+// Removed useToast and other share-related imports as they are not currently used.
+// If sharing functionality is re-enabled, these might be needed:
+// import { useToast } from "@/hooks/use-toast";
+// import { Share2, Copy } from 'lucide-react';
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
 
 interface CountdownState {
-    total: number;
+    total: number; // Remaining milliseconds
     days: number;
     hours: number;
     minutes: number;
     seconds: number;
 }
 
-const targetDate = new Date('2025-06-19T07:00:00'); // June 19, 2025 7:00 AM
+const TARGET_DATE_STRING = '2025-06-19T07:00:00'; // June 19, 2025 7:00 AM
 
 export function ShareSection() {
-  const { toast } = useToast();
-  const [pageUrl, setPageUrl] = useState('');
-  const [pageTitle] = useState('Amor Eterno - Una página especial'); // Or fetch dynamically if needed
-  const [countdown, setCountdown] = useState<CountdownState | null>(null); // Initialize countdown state as null
-  const [isUnlocked, setIsUnlocked] = useState(false); // Initial state based on server time is unreliable, set based on client time
-  const [hasMounted, setHasMounted] = useState(false); // Track if component has mounted
+  const [countdown, setCountdown] = useState<CountdownState | null>(null);
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
   const router = useRouter();
 
-  // Function to calculate time remaining
-  const calculateTimeRemaining = (): CountdownState => {
-      const now = new Date();
-      let difference = targetDate.getTime() - now.getTime();
+  useEffect(() => {
+    setHasMounted(true);
+    // All date calculations are now strictly within useEffect
 
-      if (difference <= 0) {
-          return {
-              total: 0,
-              days: 0,
-              hours: 0,
-              minutes: 0,
-              seconds: 0,
-          };
+    const targetDateInstance = new Date(TARGET_DATE_STRING);
+
+    const calculateAndUpdateCountdown = (): boolean => {
+      const now = new Date();
+      let differenceInMs = targetDateInstance.getTime() - now.getTime();
+
+      if (differenceInMs <= 0) {
+        setCountdown({ total: 0, days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setIsUnlocked(true);
+        return true; // Countdown finished
       }
 
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      difference -= days * (1000 * 60 * 60 * 24);
+      const days = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
+      let remainderMs = differenceInMs % (1000 * 60 * 60 * 24);
 
-      const hours = Math.floor(difference / (1000 * 60 * 60));
-      difference -= hours * (1000 * 60 * 60);
+      const hours = Math.floor(remainderMs / (1000 * 60 * 60));
+      remainderMs %= (1000 * 60 * 60);
 
-      const minutes = Math.floor(difference / (1000 * 60));
-      difference -= minutes * (1000 * 60);
+      const minutes = Math.floor(remainderMs / (1000 * 60));
+      remainderMs %= (1000 * 60);
 
-      const seconds = Math.floor(difference / 1000);
+      const seconds = Math.floor(remainderMs / 1000);
 
-      return {
-          total: difference,
-          days,
-          hours,
-          minutes,
-          seconds,
-      };
-  }
-
-  useEffect(() => {
-    // Ensure this runs only on the client after initial render
-    setHasMounted(true);
-    setPageUrl(window.location.href);
-
-    // Calculate initial countdown state on the client
-    const initialCountdown = calculateTimeRemaining();
-    setCountdown(initialCountdown);
-    setIsUnlocked(initialCountdown.total <= 0);
-
-    let interval: NodeJS.Timeout;
-
-    // Only set the interval if the countdown hasn't finished yet
-    if (initialCountdown.total > 0) {
-      interval = setInterval(() => {
-        const newCountdown = calculateTimeRemaining();
-        setCountdown(newCountdown);
-        if (newCountdown.total <= 0) {
-          setIsUnlocked(true);
-          clearInterval(interval); // Clear interval when countdown reaches zero
-        }
-      }, 1000);
+      setCountdown({ total: differenceInMs, days, hours, minutes, seconds });
+      setIsUnlocked(false);
+      return false; // Countdown ongoing
+    };
+    
+    // Perform initial calculation and update state
+    if (calculateAndUpdateCountdown()) {
+      // Already unlocked, no interval needed
+      return;
     }
+
+    // If not unlocked, set up the interval to update the countdown
+    const intervalId = setInterval(() => {
+      if (calculateAndUpdateCountdown()) {
+        clearInterval(intervalId); // Stop interval once unlocked
+      }
+    }, 1000);
 
     // Cleanup function to clear interval when component unmounts
     return () => {
-        if (interval) {
-            clearInterval(interval);
-        }
+      clearInterval(intervalId);
     };
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []); // Empty dependency array ensures this runs once on mount (client-side)
 
-  const copyToClipboard = () => {
-    if (!pageUrl) return;
-    navigator.clipboard.writeText(pageUrl).then(() => {
-      toast({
-        title: "Enlace Copiado",
-        description: "¡El enlace a esta página ha sido copiado!",
-        variant: "default",
-      });
-    }).catch(err => {
-      console.error('Failed to copy: ', err);
-      toast({
-        title: "Error",
-        description: "No se pudo copiar el enlace.",
-        variant: "destructive",
-      });
-    });
+  const navigateToPage = () => {
+    router.push('/otra-pagina');
   };
 
-  const shareOptions = [
-    { name: 'Twitter', icon: <TwitterIcon />, url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(pageTitle)}` },
-    { name: 'Facebook', icon: <FacebookIcon />, url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}` },
-    { name: 'WhatsApp', icon: <WhatsAppIcon />, url: `https://api.whatsapp.com/send?text=${encodeURIComponent(pageTitle + ' ' + pageUrl)}` },
-  ];
-
-    const navigateToPage = () => {
-        router.push('/otra-pagina'); // Replace '/otra-pagina' with the actual path
-    };
-
-   // Render placeholder or nothing until mounted and countdown is calculated
-   if (!hasMounted || countdown === null) {
+  // Render placeholder or nothing until mounted and countdown is calculated client-side
+  if (!hasMounted || countdown === null) {
     return (
-        <section id="share" className="py-8 bg-background">
-            <div className="container mx-auto px-4 text-center">
-                {/* Placeholder while loading */}
-                <div className="h-10 w-48 bg-muted rounded-md mx-auto animate-pulse"></div>
-                <div className="h-11 w-24 bg-muted rounded-md mx-auto mt-4 animate-pulse"></div>
-            </div>
-        </section>
+      <section id="share" className="py-8 bg-background">
+        <div className="container mx-auto px-4 text-center">
+          {/* Placeholder for the button that will show countdown or "0.12" */}
+          <div className="h-11 w-48 bg-muted rounded-md mx-auto animate-pulse"></div>
+        </div>
+      </section>
     );
-}
+  }
 
   return (
     <section id="share" className="py-8 bg-background">
       <div className="container mx-auto px-4 text-center">
-      {isUnlocked ? (
-            <Button variant="outline" size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 border-none shadow-md" onClick={navigateToPage}>
-                Ir a la página especial
-            </Button>
-        ) : (
-            <div className="mb-4">
-                <p className="text-muted-foreground">Disponible en:</p>
-                <p className="text-lg font-semibold text-primary-foreground">
-                    {countdown.days} días, {countdown.hours} horas, {countdown.minutes} minutos, {countdown.seconds} segundos
-                </p>
-            </div>
-        )}
-        <Button variant="outline" size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 border-none shadow-md" onClick={navigateToPage} disabled={!isUnlocked}>
-              0.12
+        <Button 
+            variant="outline" 
+            size="lg" 
+            className="bg-accent text-accent-foreground hover:bg-accent/90 border-none shadow-md min-w-[200px] px-4" // Added min-width and padding for better text fit
+            onClick={navigateToPage} 
+            disabled={!isUnlocked}
+        >
+          {isUnlocked 
+            ? "0.12" 
+            : `Disponible en: ${countdown.days}d ${countdown.hours}h ${countdown.minutes}m ${countdown.seconds}s`
+          }
         </Button>
-         {/* Dropdown for sharing - can be re-enabled if needed */}
-         {/*
+        
+        {/* Social sharing dropdown is currently commented out as per implied focus change */}
+        {/*
          <DropdownMenu>
           <DropdownMenuTrigger asChild>
              <Button variant="outline" size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 border-none shadow-md ml-4">
@@ -173,15 +123,15 @@ export function ShareSection() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center" className="bg-popover border-accent/50">
-             {shareOptions.map(option => (
+             {shareOptions.map(option => ( // shareOptions would need to be defined
               <DropdownMenuItem key={option.name} asChild>
                 <a href={option.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 cursor-pointer">
-                  {option.icon}
+                  {option.icon} // SVG icons would need to be defined
                   <span>{option.name}</span>
                 </a>
               </DropdownMenuItem>
             ))}
-             <DropdownMenuItem onSelect={copyToClipboard} className="flex items-center gap-2 cursor-pointer">
+             <DropdownMenuItem onSelect={copyToClipboard} className="flex items-center gap-2 cursor-pointer"> // copyToClipboard would need to be defined
                 <Copy />
                 <span>Copiar Enlace</span>
             </DropdownMenuItem>
